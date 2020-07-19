@@ -78,16 +78,16 @@ public class MainActivity extends AppCompatActivity{
 
     private void updateUI() {
         Field[] fields = R.raw.class.getFields();
-        for (int count = 0; count < fields.length; count++){
-            Log.i("Raw Asset: ", fields[count].getName());
+        for (Field field : fields) {
+            Log.i("Raw Asset: ", field.getName());
             int resourceID = 0;
             try {
-                resourceID = fields[count].getInt(fields[count]);
+                resourceID = field.getInt(field);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            String resourceName = fields[count].getName();
-            MediaFile file = new MediaFile(resourceID,resourceName);
+            String resourceName = field.getName();
+            MediaFile file = new MediaFile(resourceID, resourceName);
             mMusicFiles.add(file);
         }
         mMediaRecyclerView.setAdapter(new MediaFilesAdapter(mMusicFiles));
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void playOrPause() {
         if(mMedia.isPlaying()) {
-            mPlayOrPause.setText("Play");
+            mPlayOrPause.setText(R.string.play);
             try {
                 mMedia.pause();
             } catch (Exception e) {
@@ -103,14 +103,13 @@ public class MainActivity extends AppCompatActivity{
             }
 
         } else {
-            mPlayOrPause.setText("Pause");
+            mPlayOrPause.setText(R.string.pause);
             try {
                 mMedia.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     private void nextTrack() {
